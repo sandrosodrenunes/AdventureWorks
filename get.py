@@ -18,31 +18,7 @@ class Product(BaseModel):
     SafetyStockLevel: int
     ReorderPoint: int
     StandardCost: float
-    ListPrice: float
-    Size: Optional[str] = None
-    SizeUnitMeasureCode: Optional[str] = None
-    WeightUnitMeasureCode: Optional[str] = None
-    Weight: Optional[float] = None
-    DaysToManufacture: int
-    ProductLine: Optional[str] = None
-    Class: Optional[str] = None
-    Style: Optional[str] = None
-    ProductSubcategoryID: Optional[int] = None
-    ProductModelID: Optional[int] = None
-    SellStartDate: datetime
-    SellEndDate: Optional[datetime] = None
-    DiscontinuedDate: Optional[datetime] = None
-    rowguid: uuid.UUID
-    ModifiedDate: datetime
-
-def get_db_connection():
-    try:
-        conn = psycopg2.connect(
-            host="localhost",
-            database="postgres",
-            user="postgres",
-            password="My_password1"
-        )
+    ListPrice: floatgit config  lfs.allowincompletepush true
         return conn
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
