@@ -1,71 +1,62 @@
-# Docker AdventureWorks
-This project is available on...
-- Docker Hub: [`chriseaton/adventureworks`](https://hub.docker.com/r/chriseaton/adventureworks)
-- GitHub: [`chriseaton/docker-adventureworks`](https://github.com/chriseaton/docker-adventureworks)
+# Hackathon SantoDigital - 08/2024 Desafio II
 
-To run one of the samples, see §Running below.    
-You can find samples of a `docker` or `docker-compose.yaml` files in the `samples/` directory.
+Neste desafio, você deverá desenvolver uma API REST usando o framework de sua escolha (preferencialmente FastAPI) para interagir com o banco de dados AdventureWorks.
+Sua API deve ser capaz de executar as seguintes tarefas, além de implementar funcionalidades avançadas para garantir segurança, eficiência e manutenibilidade.
 
-## Tags & Support
-Currently this docker image is available in two supported database engines: Microsoft SQL Server & Postgres
+## Funcionalidades Básicas
 
-To ensure parity and cross-compatibility, we use a slightly older version of each.
+Create: Rota POST /products/
+Read: Rota GET /products/
+Update: Rota PUT /products/{id}
+Delete: Rota DELETE /products/{id}
 
-- Microsoft SQL 2022 & 2017
-- Postgres 16 & 13
+Validação de Dados
+Paginação, Filtragem e Ordenação
+Manipulação de Transações
+Testes Unitários e de Integração
+Criação de Logs
+Documentação Automática Swagger
 
-If you'd like to leverage a specific version, you can clone this repository and modify the `build.sh` scripts in the 
-appropriate folder.
+### Tarefa 2:
 
-### Microsoft SQL Server
-There are three versions tagged for Microsoft SQL Server:
-
-| Tag | Description |
-|-----|-------------|
-| `latest` or `oltp` or `oltp-2022` | This image contains the standard OLTP version of the AdventureWorks database on Microsoft SQL 2022. |
-| `oltp-2017` | This image contains the standard OLTP version of the AdventureWorks database on Microsoft SQL 2017. |
-| `datawarehouse` or `datawarehouse-2022` | This image utilizes the data warehouse version of the AdventureWorks database on Microsoft SQL 2022. |
-| `datawarehouse-2017` | This image utilizes the data warehouse version of the AdventureWorks database on Microsoft SQL 2017. |
-| `light` or `light-2022` | This image utilizes the "light" version of the AdventureWorks database on Microsoft SQL 2022. |
-| `light-2017` | This image utilizes the "light" version of the AdventureWorks database on Microsoft SQL 2017. |
+Testes Unitários: Criar testes unitários para cada rota da API (POST /products/, GET /products/, GET /products/{id}, PUT /products/{id}, DELETE /products/{id}).
+Verificar se cada rota está funcionando corretamente com entradas válidas. Verificar se cada rota lida
 
 ### Postgres
-At this time, only the tables and data are fully implemented but should be accurately converted to postgres data types (including geography).
-Some views (specifically, the ones using XML and `CROSS APPLY`) have been omitted.
+
+No momento, apenas as tabelas e os dados são totalmente implementados, mas devem ser convertidos com precisão em tipos de dados postgres (incluindo geografia).
+Algumas visualizações (especificamente, as que usam XML e 'CROSS APPLY') foram omitidas.
 
 No functions, custom types, or stored procedures are included.
 
-| Tag | Description |
-|-----|-------------|
-| `postgres` or `postgres-16` | This image adapts the "light" version of the AdventureWorks database to Postgres 16.  |
-| `postgres-13` | This image adapts the "light" version of the AdventureWorks database to Postgres 13.  |
-
-## Running
-### Microsoft SQL Server
-This docker image uses the same environmental variables defined on the [Microsoft SQL Server docker image](https://hub.docker.com/_/microsoft-mssql-server).
-```
-docker run -p 1433:1433 -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=My_password1' -d chriseaton/adventureworks:latest
-```
+| Tag                         | Description                                                                              |
+| --------------------------- | ---------------------------------------------------------------------------------------- |
+| `postgres` or `postgres-16` | Esta imagem adapta a versão "light" do banco de dados AdventureWorks para Postgres 16.   |
+| `postgres-13`               | Esta imagem adapta a versão "light" do banco de dados AdventureWorks para o Postgres 13. |
 
 > [!TIP]
-> Replace `My_password1` with your own secure password. Note that the password *must* pass minimum complexity requirements
-or you won't be able to connect!
+> Substitua `My_password1` por sua própria senha segura. Observe que a senha _deve_ passar pelos requisitos mínimos de complexidade
+> ou você não conseguirá se conectar!
 
 ### Postgres
-This docker image uses the same environmental variables defined on the [Postgres docker image](https://hub.docker.com/_/postgres).
+
+Essa imagem do docker usa as mesmas variáveis de ambiente definidas no [Postgres docker image](https://hub.docker.com/_/postgres).
+
 ```
 docker run -p 5432:5432 -e 'POSTGRES_PASSWORD=My_password1' -d chriseaton/adventureworks:postgres
+
 ```
 
-## Development
+### Fastapi
 
-### Building
-Run the `build.sh` script to download the AdventureWorks [backup file from Microsoft](https://docs.microsoft.com/en-us/sql/samples/adventureworks-install-configure), and to build and tag the docker image.
+```
+fastapi dev app/main.py
 
-### Publishing
-If you are a maintainer, you can publish the image to docker hub [chriseaton/adventureworks](https://hub.docker.com/repository/docker/chriseaton/adventureworks).
-
-```sh
-docker push chriseaton/adventureworks
 ```
 
+### pytest
+
+```
+pytest
+
+```
