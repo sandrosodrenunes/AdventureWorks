@@ -5,6 +5,7 @@ from typing import List, Optional, Dict
 from datetime import datetime
 from uuid import UUID
 from app.models import Product
+from enum import Enum
 
 def get_db_connection():
     try:
@@ -17,21 +18,30 @@ def get_db_connection():
         return conn
     except OperationalError as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# Enumeração para os valores de ordenação
+class SortByEnum(str, Enum):
+    name = "Name"
+    list_price = "ListPrice"
+
+class SortOrderEnum(str, Enum):
+    asc = "asc"
+    desc = "desc"        
     
-# GET Filtragem e Ordenação
-def get_products(page: int, page_size: int, color: Optional[str], min_price: Optional[float], max_price: Optional[float], sort_by: str, sort_order: str) -> List[Dict]:
+def get_products(page: int, page_size: int, color: Optional[str], min_price: Optional[float], max_price: Optional[float], sort_by: SortByEnum, sort_order: SortOrderEnum) -> List[Dict]:
     conn = get_db_connection()
     cursor = conn.cursor()
     offset = (page - 1) * page_size
     
-    valid_sort_by = sort_by if sort_by in ['Name', 'ListPrice'] else 'Name'
-    sort_column = f'"Production"."Product"."{valid_sort_by}"'
+    sort_column = f'"Production"."Product"."{sort_by.value}"'
+    sort_direction = sort_order.value
+
     query = f"""
         SELECT * FROM "Production"."Product"
         WHERE (%s IS NULL OR "Color" = %s)
         AND (%s IS NULL OR "ListPrice" >= %s)
         AND (%s IS NULL OR "ListPrice" <= %s)
-        ORDER BY {sort_column} {sort_order}
+        ORDER BY {sort_column} {sort_direction}
         LIMIT %s OFFSET %s
     """
     
@@ -69,11 +79,11 @@ def get_products(page: int, page_size: int, color: Optional[str], min_price: Opt
                 "Style": row[17],
                 "ProductSubcategoryID": row[18],
                 "ProductModelID": row[19],
-                "SellStartDate": row[20],
-                "SellEndDate": row[21],
-                "DiscontinuedDate": row[22],
+                "SellStartDate": row[20].isoformat() if isinstance(row[20], datetime) else row[20],  # Conversão para string
+                "SellEndDate": row[21].isoformat() if isinstance(row[21], datetime) else row[21],  # Conversão para string
+                "DiscontinuedDate": row[22].isoformat() if isinstance(row[22], datetime) else row[22],  # Conversão para string
                 "rowguid": row[23],
-                "ModifiedDate": row[24]
+                "ModifiedDate": row[24].isoformat() if isinstance(row[24], datetime) else row[24]  # Conversão para string
             }
             result.append(product_dict)
         
@@ -82,7 +92,8 @@ def get_products(page: int, page_size: int, color: Optional[str], min_price: Opt
         raise HTTPException(status_code=500, detail=str(e))
     finally:
         cursor.close()
-        conn.close()        
+        conn.close()
+      
     
 # GET ID
 def fetch_product_by_id(product_id: int) -> Optional[dict]:

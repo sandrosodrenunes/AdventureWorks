@@ -6,10 +6,20 @@ from datetime import datetime
 import uuid
 from app.models import Product
 from app.db import fetch_product_by_id, insert_product, update_product, delete_product, get_products
+from enum import Enum  
 
 app = FastAPI()
 
-# GET Filtragem e Ordenação
+# Enumeração para os valores de ordenação
+class SortByEnum(str, Enum):
+    name = "Name"
+    list_price = "ListPrice"
+
+class SortOrderEnum(str, Enum):
+    asc = "asc"
+    desc = "desc"
+
+# Endpoint GET para produtos com filtragem e ordenação
 @app.get("/products/", response_model=List[Product])
 def get_products_endpoint(
     page: int = Query(1, gt=0),  
@@ -17,8 +27,8 @@ def get_products_endpoint(
     color: Optional[str] = None,
     min_price: Optional[float] = None,
     max_price: Optional[float] = None,
-    sort_by: Optional[str] = Query('Name', enum=['Name', 'ListPrice']),
-    sort_order: Optional[str] = Query('asc', enum=['asc', 'desc'])
+    sort_by: SortByEnum = Query(SortByEnum.name),
+    sort_order: SortOrderEnum = Query(SortOrderEnum.asc)
 ):
     products = get_products(
         page=page,
