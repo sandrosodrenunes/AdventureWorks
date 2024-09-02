@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Hackathon SantoDigital - 08/2024 Desafio II
 
 Neste desafio, você deverá desenvolver uma API REST usando o framework de sua escolha (preferencialmente FastAPI) para interagir com o banco de dados AdventureWorks.
