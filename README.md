@@ -111,6 +111,4 @@ Retorna os vendedores que tiveram vendas com valor acima da média no último an
 
 ![categories](https://github.com/user-attachments/assets/03565830-1004-4ee6-9666-a7a0d821f61d)
 =======
-# AdventureWorks
-AdventureWorks
->>>>>>> parent of 63d1673 (add arquivos de config)
+
