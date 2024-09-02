@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Hackathon SantoDigital - 08/2024 Desafio II
 
 Neste desafio, você deverá desenvolver uma API REST usando o framework de sua escolha (preferencialmente FastAPI) para interagir com o banco de dados AdventureWorks.
@@ -109,3 +110,7 @@ Rota 4: GET /sales/top-sellers
 Retorna os vendedores que tiveram vendas com valor acima da média no último ano fiscal
 
 ![categories](https://github.com/user-attachments/assets/03565830-1004-4ee6-9666-a7a0d821f61d)
+=======
+# AdventureWorks
+AdventureWorks
+>>>>>>> parent of 63d1673 (add arquivos de config)
